@@ -73,6 +73,15 @@ View:
 
 * Male plug solder cups viewed from assembly face
 
+Harris 9 Pin Portable Accessory Connector
+-----------------------------------------
+
+![pinout](pic/harris_9_pin_port_accy.png)
+
+View:
+
+* Female jack contacts from mating face (radio side)
+
 AC100
 -----
 
@@ -158,3 +167,16 @@ Pinout:
 * DB15 pin 7 - Hirose Pin 4
 * DB15 pin 8 - 2k Resistor - Hirose Pin 2
 * DB15 pin 13 - Hirose Pin 2
+
+AC109
+-----
+
+* 6 pin female jack Hirose to male Harris 9 pin portable accessory connector
+* Equivalent to Harris 12082-0400-A1 cable
+
+Pinout:
+
+* Accessory Pin 3 - 20k Resistor - Hirose Pin 4
+* Accessory Pin 5 - Hirose Pin 4
+* Accessory Pin 6 - Hirose Pin 2
+* Accessory Pin 9 - Hirose Pin 4
