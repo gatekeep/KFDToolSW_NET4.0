@@ -1,0 +1,4 @@
+{
+    "sketch": "kfd-avr.ino",
+    "board": "arduino:avr:uno"
+}
