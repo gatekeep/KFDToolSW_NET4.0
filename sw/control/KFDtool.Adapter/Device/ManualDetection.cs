@@ -12,20 +12,25 @@ namespace KFDtool.Adapter.Device
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        /*
         private const string APP_USB_VID = "2047";
         private const string APP_USB_PID = "0A7C";
 
         private const string BSL_USB_VID = "2047";
         private const string BSL_USB_PID = "0200";
+        */
 
         public static List<string> DetectConnectedAppDevices()
         {
             List<string> devices = new List<string>();
 
+            /*
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(
                 "root\\CIMV2",
                 string.Format("SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE '%USB\\\\VID_{0}&PID_{1}%'", APP_USB_VID, APP_USB_PID)
                 );
+            */
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM WIN32_SerialPort");
 
             foreach (ManagementObject queryObj in searcher.Get())
             {
