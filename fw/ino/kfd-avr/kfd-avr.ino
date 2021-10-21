@@ -4,6 +4,7 @@
 #include "InfoData.h"
 #include "ControlOpCodes.h"
 #include "Versions.h"
+#include "UID.h"
 
 uint16_t cmdCount;
 uint8_t cmdData[128];
@@ -60,49 +61,33 @@ void loop()
                 }
                 else if (cmdData[1] == READ_UNIQUE_ID) // read unique id
                 {
-                    uint8_t *serNum;
-                    uint8_t serLen;
+                    uint8_t ser0;
+                    uint8_t ser1;
+                    uint8_t ser2;
+                    uint8_t ser3;
+                    uint8_t ser4;
+                    uint8_t ser5;
+                    uint8_t ser6;
+                    uint8_t ser7;
 
-                    serNum = 0;
+                    getUID8(&ser0, &ser1, &ser2, &ser3, &ser4, &ser5, &ser6, &ser7);
 
-                    //TLV_getInfo(TLV_TAG_DIERECORD, 0, (uint8_t *)&serLen, (uint16_t **)&serNum);
+                    uint8_t rspData[12];
 
-                    if (serLen == 10)
-                    {
-                        uint8_t rspData[12];
+                    rspData[0] = RSP_READ;
+                    rspData[1] = READ_UNIQUE_ID;
+                    rspData[2] = 0x09;    // id length
+                    rspData[3] = 0x10;    // id source
+                    rspData[4] = ser0;
+                    rspData[5] = ser1;
+                    rspData[6] = ser2;
+                    rspData[7] = ser3;
+                    rspData[8] = ser4;
+                    rspData[9] = ser5;
+                    rspData[10] = ser6;
+                    rspData[11] = ser7;
 
-                        rspData[0] = RSP_READ;
-                        rspData[1] = READ_UNIQUE_ID;
-                        rspData[2] = 0x09;    // id length
-                        rspData[3] = 0x10;    // id source (msp430 die record)
-                        rspData[4] = *serNum; // id[0]
-                        serNum++;
-                        rspData[5] = *serNum; // id[1]
-                        serNum++;
-                        rspData[6] = *serNum; // id[2]
-                        serNum++;
-                        rspData[7] = *serNum; // id[3]
-                        serNum++;
-                        rspData[8] = *serNum; // id[4]
-                        serNum++;
-                        rspData[9] = *serNum; // id[5]
-                        serNum++;
-                        rspData[10] = *serNum; // id[6]
-                        serNum++;
-                        rspData[11] = *serNum; // id[7]
-
-                        spTxDataWait(rspData, sizeof(rspData));
-                    }
-                    else // no unique id available
-                    {
-                        uint8_t rspData[3];
-
-                        rspData[0] = RSP_READ;
-                        rspData[1] = READ_UNIQUE_ID;
-                        rspData[2] = 0x00; // id length
-
-                        spTxDataWait(rspData, sizeof(rspData));
-                    }
+                    spTxDataWait(rspData, sizeof(rspData));
                 }
                 else if (cmdData[1] == READ_MODEL_ID) // read model id
                 {

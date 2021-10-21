@@ -185,6 +185,10 @@ namespace KFDtool.P25.TransferConstructs
                 {
                     model = "KFD100";
                 }
+                else if (mod == 0x02)
+                {
+                    model = "KFD-AVR";
+                }
                 else
                 {
                     model = "UNKNOWN";

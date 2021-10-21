@@ -15,10 +15,9 @@ namespace KFDtool.Adapter.Device
         /*
         private const string APP_USB_VID = "2047";
         private const string APP_USB_PID = "0A7C";
-
+        */
         private const string BSL_USB_VID = "2047";
         private const string BSL_USB_PID = "0200";
-        */
 
         public static List<string> DetectConnectedAppDevices()
         {
