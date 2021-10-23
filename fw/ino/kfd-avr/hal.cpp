@@ -1,5 +1,7 @@
 #include "hal.h"
 
+void(* resetFunc) (void) = 0;
+
 void halInit(void)
 {
 
@@ -17,7 +19,7 @@ void halInit(void)
 
     // P2.4 MCU_SENSE_OUT_3V3
     pinMode(SNS_TX, OUTPUT);
-    digitalWrite(SNS_RX, LOW);
+    digitalWrite(SNS_TX, LOW);
 
     // P2.5 MCU_SENSE_IN_3V3
     pinMode(SNS_RX, INPUT);
@@ -45,14 +47,11 @@ void halDelayMs(uint16_t ms)
 
 void halEnterBsl(void)
 {
-    // there is no BSL on avr (sorta)
-    // might make this reset to pop into the arduino bootloader later, dunno
-    ;
+    resetFunc();
 }
 
 void halReset(void)
 {
-    void(* resetFunc) (void) = 0;
     resetFunc();
 }
 

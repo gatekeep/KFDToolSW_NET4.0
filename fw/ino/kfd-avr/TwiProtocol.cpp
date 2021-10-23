@@ -13,16 +13,19 @@
 #define KFD_RX_IS_IDLE digitalRead(DATA_RX) == HIGH
 
 #define SEN_RX_IS_CONN digitalRead(SNS_RX) == LOW
-#define SEN_RX_IS_DISC digitalRead(SNS_TX) == HIGH
+#define SEN_RX_IS_DISC digitalRead(SNS_RX) == HIGH
 
-uint16_t busySending;
-uint16_t timerType;
-uint16_t rxBitsLeft;
-uint16_t txNumLeft;
-uint16_t bitCount;
-uint16_t TXByte;
-uint16_t RXByte;
-uint16_t hasReceived;
+volatile uint16_t busySending;
+volatile uint16_t timerType;
+volatile uint16_t rxBitsLeft;
+volatile uint16_t txNumLeft;
+volatile uint16_t bitCount;
+volatile uint16_t TXByte;
+volatile uint16_t RXByte;
+volatile uint16_t hasReceived;
+
+int timer=0;
+bool state=true;
 
 uint8_t reverseByte(uint8_t b)
 {
@@ -133,7 +136,7 @@ uint8_t twiSelfTest(void)
         halKfdTxIdle();
         halSenTxDisc();
     }
-    /*
+
     // test case 2 - SEN shorted to GNDISO
     // SEN_RX should be DISC (5VISO)
     if (!error)
@@ -151,7 +154,7 @@ uint8_t twiSelfTest(void)
         halKfdTxIdle();
         halSenTxDisc();
     }
-    */
+ 
 
     // test case 3 - KFD shorted to 5VISO
     // KFD_RX should be BUSY (GNDISO)
@@ -171,7 +174,7 @@ uint8_t twiSelfTest(void)
         halSenTxDisc();
     }
 
-    /*
+ 
     // test case 4 - SEN shorted to 5VISO
     // SEN_RX should be CONN (GNDISO)
     if (!error)
@@ -190,7 +193,7 @@ uint8_t twiSelfTest(void)
         halSenTxDisc();
     }
     
-
+    /*
     // test cases 5 and 6 _should_ be identical in theory
     // but strange things happen in the real world...
 
@@ -262,9 +265,16 @@ void twiSendKeySig(void)
     timerType = 1;
     txNumLeft = 105;
 
-    //Timer_A_setCompareValue(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0, SIG_TIME); // set timer period
-    //TA0CCTL0 |= CCIE; // enable timer interrupt
-    //TA0CTL |= TASSEL_2 + MC_1 + TACLR; // clock source SMCLK, count up mode, clear TAR
+    // pause interrupts; clear and init registers
+    noInterrupts();
+    TCCR1A = 0;
+    TCCR1B = 0;
+    TCNT1 = 0; // clear counter value
+
+    TCCR1B = 0b00000001; // set prescaler and CTC mode
+    TIMSK1 = 0b00000010; // set interrupt callback
+    OCR1A = SIG_TIME; // set value to count up to
+    interrupts(); // go!
 
     while (busySending); // wait for completion
 
@@ -291,10 +301,17 @@ void twiSendPhyByte(uint8_t byteToSend)
     TXByte = TXByte << 1; // add start bit
     bitCount = 10;
 
-    //Timer_A_setCompareValue(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0, BIT_TIME); // set timer period
-    //TA0CCTL0 |= CCIE; // enable timer interrupt
-    //TA0CTL |= TASSEL_2 + MC_1 + TACLR; // clock source SMCLK, count up mode, clear TAR
+    // pause interrupts; clear and init registers
+    noInterrupts();
+    TCCR1A = 0;
+    TCCR1B = 0;
+    TCNT1 = 0; // clear counter value
 
+    TCCR1B = 0b00000001; // set prescaler
+    TIMSK1 = 0b00000010; // set compare match mode
+    OCR1A = BIT_TIME; // set value to count up to
+    interrupts(); // go!
+    
     while (busySending); // wait for completion
 
     halGpio1Low();
@@ -310,21 +327,30 @@ void Port_1(void)
     rxBitsLeft = 10;
     RXByte = 0;
 
-    //Timer_A_setCompareValue(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0, HALF_BIT_TIME); // set timer period
-    //TA0CCTL0 |= CCIE; // enable timer interrupt
-    //TA0CTL |= TASSEL_2 + MC_1 + TACLR; // clock source SMCLK, count up mode, clear TAR
+    // pause interrupts; clear and init registers
+    noInterrupts();
+    TCCR1A = 0; // clear registers
+    TCCR1B = 0; // clear registers
+    TCNT1 = 0; // clear counter value
+
+    TCCR1B = 0b00000001; // set prescaler
+    TIMSK1 = 0b00000010; // set compare match mode
+    OCR1A = HALF_BIT_TIME; // set value to count up to
+    interrupts(); // go!
 }
 
-ISR(TIMER0_COMPA_vect)
+ISR(TIMER1_COMPA_vect)
 {
+    TCNT1 = 0; // clear counter value
     if (timerType == 0) // receive byte mode
     {
-        //Timer_A_setCompareValue(TIMER_A0_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0, BIT_TIME); // set timer period
-
+        OCR1A = BIT_TIME; // set value to count up to
+        
         if (rxBitsLeft == 0)
         {
-            //TA0CCTL0 &= ~CCIE; // disable timer interrupt
-            //Timer_A_stop(TIMER_A0_BASE); // stop timer
+            TCCR1B = 0; // stop timer by declocking
+            TIMSK1 = 0; // disconnect interrupts
+            
             while (KFD_RX_IS_BUSY); // wait for idle
             halGpio1Low();
             ENABLE_KFD_RX_INT
@@ -350,8 +376,8 @@ ISR(TIMER0_COMPA_vect)
     {
         if (txNumLeft == 0)
         {
-            //TA0CCTL0 &= ~CCIE; // disable timer interrupt
-            //Timer_A_stop(TIMER_A0_BASE); // stop timer
+            TCCR1B = 0; // stop timer by declocking
+            TIMSK1 = 0; // disconnect interrupts
             halKfdTxIdle();
             busySending = 0;
         }
@@ -377,8 +403,8 @@ ISR(TIMER0_COMPA_vect)
 
             if (txNumLeft == 0)
             {
-                //TA0CCTL0 &= ~CCIE; // disable timer interrupt
-                //Timer_A_stop(TIMER_A0_BASE); // stop timer
+                TCCR1B = 0; // stop timer by declocking
+                TIMSK1 = 0; // disconnect interrupts
                 halKfdTxIdle();
                 busySending = 0;
             }

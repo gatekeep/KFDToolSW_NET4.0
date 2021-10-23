@@ -13,6 +13,7 @@ void twiSendKeySig(void);
 
 void twiSendPhyByte(uint8_t byteToSend);
 
-void Port_1();
+void Port_1(void);
 
+void TimerCallback(void);
 #endif /* TWIPROTOCOL_H_ */
