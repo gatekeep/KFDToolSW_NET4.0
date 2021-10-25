@@ -2,9 +2,10 @@
 
 #include "TwiProtocol.h"
 
-#define BIT_TIME FCPU/4000
-#define HALF_BIT_TIME BIT_TIME/2
-#define SIG_TIME BIT_TIME*4
+#define TIME_OFFSET 1
+#define BIT_TIME FCPU/4000 * TIME_OFFSET
+#define HALF_BIT_TIME BIT_TIME/2 * TIME_OFFSET
+#define SIG_TIME BIT_TIME*4 * TIME_OFFSET
 
 #define ENABLE_KFD_RX_INT attachInterrupt(digitalPinToInterrupt(DATA_RX), Port_1, FALLING);
 #define DISABLE_KFD_RX_INT detachInterrupt(digitalPinToInterrupt(DATA_RX));
@@ -263,7 +264,7 @@ void twiSendKeySig(void)
 
     busySending = 1;
     timerType = 1;
-    txNumLeft = 105;
+    txNumLeft = 100;
 
     // pause interrupts; clear and init registers
     noInterrupts();
@@ -345,7 +346,7 @@ ISR(TIMER1_COMPA_vect)
     if (timerType == 0) // receive byte mode
     {
         OCR1A = BIT_TIME; // set value to count up to
-        
+        halLed1Toggle();
         if (rxBitsLeft == 0)
         {
             TCCR1B = 0; // stop timer by declocking
@@ -353,6 +354,7 @@ ISR(TIMER1_COMPA_vect)
             
             while (KFD_RX_IS_BUSY); // wait for idle
             halGpio1Low();
+            halLed1On();
             ENABLE_KFD_RX_INT
             RXByte = RXByte >> 1; // remove start bit
             RXByte &= 0xFF; // remove parity bit
@@ -383,7 +385,8 @@ ISR(TIMER1_COMPA_vect)
         }
         else
         {
-            if (txNumLeft > 5)
+            //if (txNumLeft > 5)
+            if (true)
             {
                 halKfdTxBusy();
             }

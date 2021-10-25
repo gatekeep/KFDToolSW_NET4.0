@@ -454,8 +454,4 @@ void loop()
 
         spTxDataBack(bcstData, sizeof(bcstData));
     }
-
-    // delay to let the serial buffer fill up
-    // if this isn't here, the buf won't fill up for some reason
-    delay(5);
 }

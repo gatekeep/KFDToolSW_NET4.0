@@ -11,7 +11,7 @@
 #define DATA_RX 3   // TWI Data RX (INT0)
 #define SNS_TX 4    // TWI Sense TX
 #define SNS_RX 2    // TWI Sense RX (INT1)
-#define GPIO1 8
+#define GPIO1 6
 #define GPIO2 9
 
 void halInit(void);

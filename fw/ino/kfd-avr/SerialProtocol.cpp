@@ -6,6 +6,10 @@
 #define ESC 0x63
 #define ESC_PLACEHOLDER 0x64
 
+uint16_t inDataCount = 0;
+uint8_t inData[128];
+bool messageStarted = false;
+
 void spConnect(void)
 {
     Serial.begin(115200);
@@ -20,13 +24,6 @@ void spDisconnect(void)
 
 uint16_t spRxData(uint8_t* outData)
 {
-    // TODO implement ring buffer, currently expecting all data to come in one transfer
-
-    uint16_t inDataCount;
-    uint8_t inData[128];
-
-    //inDataCount = cdcReceiveDataInBuffer(inData, sizeof(inData), CDC0_INTFNUM);
-    inDataCount = 0;
     while (Serial.available() > 0) {
         inData[inDataCount] = Serial.read();
         inDataCount++;
@@ -64,6 +61,11 @@ uint16_t spRxData(uint8_t* outData)
 
         outIndex++;
     }
+
+    // we've already processed the message and set the pointer
+    // reset the count (mark the buffer as free)
+    inDataCount = 0;
+    
 
     return outIndex;
 }
