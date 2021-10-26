@@ -7,8 +7,10 @@
 #define HALF_BIT_TIME BIT_TIME/2 * TIME_OFFSET
 #define SIG_TIME BIT_TIME*4 * TIME_OFFSET
 
-#define ENABLE_KFD_RX_INT attachInterrupt(digitalPinToInterrupt(DATA_RX), Port_1, FALLING);
-#define DISABLE_KFD_RX_INT detachInterrupt(digitalPinToInterrupt(DATA_RX));
+// set EIFR to 2 clears the interrupt flag
+// probably don't need to do it in the detach side but it keeps anything latent from firing off
+#define ENABLE_KFD_RX_INT cli(); EIFR = 2; attachInterrupt(digitalPinToInterrupt(DATA_RX), Port_1, FALLING); sei();
+#define DISABLE_KFD_RX_INT cli(); EIFR = 2; detachInterrupt(digitalPinToInterrupt(DATA_RX)); sei();
 
 #define KFD_RX_IS_BUSY digitalRead(DATA_RX) == LOW
 #define KFD_RX_IS_IDLE digitalRead(DATA_RX) == HIGH
@@ -24,9 +26,6 @@ volatile uint16_t bitCount;
 volatile uint16_t TXByte;
 volatile uint16_t RXByte;
 volatile uint16_t hasReceived;
-
-int timer=0;
-bool state=true;
 
 uint8_t reverseByte(uint8_t b)
 {
@@ -346,7 +345,6 @@ ISR(TIMER1_COMPA_vect)
     if (timerType == 0) // receive byte mode
     {
         OCR1A = BIT_TIME; // set value to count up to
-        halLed1Toggle();
         if (rxBitsLeft == 0)
         {
             TCCR1B = 0; // stop timer by declocking
@@ -354,7 +352,6 @@ ISR(TIMER1_COMPA_vect)
             
             while (KFD_RX_IS_BUSY); // wait for idle
             halGpio1Low();
-            halLed1On();
             ENABLE_KFD_RX_INT
             RXByte = RXByte >> 1; // remove start bit
             RXByte &= 0xFF; // remove parity bit
@@ -368,7 +365,13 @@ ISR(TIMER1_COMPA_vect)
             if (KFD_RX_IS_IDLE)
             {
                 RXByte |= 0x400; // set the value in the RXByte
+                
             }
+            else
+            {
+               
+            }
+            
 
             RXByte = RXByte >> 1; // shift the bits down
             rxBitsLeft--;

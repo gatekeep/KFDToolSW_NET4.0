@@ -13,12 +13,8 @@ uint8_t rxTemp;
 
 void setup()
 {
-    //WDT_A_hold(WDT_A_BASE);
-
     halInit();
     spConnect();
-
-    //__enable_interrupt();
 
     twiInit();
 
