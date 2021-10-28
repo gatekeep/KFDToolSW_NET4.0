@@ -1,0 +1,22 @@
+Reference, Value, Footprint,Manufacturer Name,Manufacturer Part Number,Alternative Manufacturer,Alternative Part Number
+P1,Power,Socket_Arduino_Uno:Socket_Strip_Arduino_1x08,Adam Technologies,RS1-08-G-.561-A11596,,
+P2,Analog,Socket_Arduino_Uno:Socket_Strip_Arduino_1x06,Adam Technologies,RS1-06-G-.561-A11596,,
+P4,Digital,Socket_Arduino_Uno:Socket_Strip_Arduino_1x08,Adam Technologies,RS1-08-G-.561-A11597,,
+P3,Digital,Socket_Arduino_Uno:Socket_Strip_Arduino_1x10,Adam Technologies,RS1-10-G-.561-A11598,,
+Q1,MMBT3904LT1G,Package_TO_SOT_SMD:SOT-23,ON Semiconductor,MMBT3904LT1G,Central Semiconductor Corp,CMPT3904G TR PBFREE
+R2,220,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603JT220R,YAGEO,RC0603JR-07220RL
+R1,10K,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603FT10K0,YAGEO,RC0603FR-0710KL
+R3,1K,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603FT1K00,YAGEO,RC0603FR-071KL
+Q2,MMBT3904LT1G,Package_TO_SOT_SMD:SOT-23,ON Semiconductor,MMBT3904LT1G,Central Semiconductor Corp,CMPT3904G TR PBFREE
+R5,220,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603JT220R,YAGEO,RC0603JR-07220RL
+R4,10K,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603FT10K0,YAGEO,RC0603FR-0710KL
+R6,1K,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603FT1K00,YAGEO,RC0603FR-071KL
+SW1,SW_Push,Button_Switch_SMD:SW_SPST_B3SL-1002P,E-Switch,TL3301AF160QG,,
+R7,470,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603JT470R,YAGEO,RC0603JR-07470RL
+D3,PWR,LED_SMD:LED_0603_1608Metric,Rohm Semiconductor,SML-D12P8WT86,,
+D4,ACT,LED_SMD:LED_0603_1608Metric,Rohm Semiconductor,SML-D12U1WT86,,
+R8,470,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603JT470R,YAGEO,RC0603JR-07470RL
+D5,SNS,LED_SMD:LED_0603_1608Metric,Rohm Semiconductor,SML-D12Y1WT86,,
+R9,470,Resistor_SMD:R_0603_1608Metric,Stackpole Electronics Inc,RMCF0603JT470R,YAGEO,RC0603JR-07470RL
+J1,MR_Block,"Connector_Phoenix_MC:PhoenixContact_MC_1,5_3-G-3.81_1x03_P3.81mm_Horizontal",Phonenix Contact,1844223,None,None
+J2,OLED,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,DO NOT POPULATE,DO NOT POPULATE,None,None
