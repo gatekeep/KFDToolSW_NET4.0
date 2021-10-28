@@ -5,9 +5,9 @@
     {
       "Vendor":      "KiCad",
       "Application": "Pcbnew",
-      "Version":     "(5.1.10)-1"
+      "Version":     "(5.1.9)-1"
     },
-    "CreationDate":  "2021-10-27T21:18:11-05:00"
+    "CreationDate":  "2021-10-28T18:27:29-05:00"
   },
   "GeneralSpecs":
   {
@@ -50,26 +50,6 @@
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "KVLShield-F_Adhes.gbr",
-      "FileFunction":  "Glue,Top",
-      "FilePolarity":  "Positive"
-    },
-    {
-      "Path":  "KVLShield-B_Adhes.gbr",
-      "FileFunction":  "Glue,Bot",
-      "FilePolarity":  "Positive"
-    },
-    {
-      "Path":  "KVLShield-F_Paste.gbr",
-      "FileFunction":  "SolderPaste,Top",
-      "FilePolarity":  "Positive"
-    },
-    {
-      "Path":  "KVLShield-B_Paste.gbr",
-      "FileFunction":  "SolderPaste,Bot",
-      "FilePolarity":  "Positive"
-    },
-    {
       "Path":  "KVLShield-F_SilkS.gbr",
       "FileFunction":  "Legend,Top",
       "FilePolarity":  "Positive"
@@ -93,16 +73,6 @@
       "Path":  "KVLShield-Edge_Cuts.gbr",
       "FileFunction":  "Profile",
       "FilePolarity":  "Positive"
-    },
-    {
-      "Path":  "KVLShield-F_Fab.gbr",
-      "FileFunction":  "AssemblyDrawing,Top",
-      "FilePolarity":  "Positive"
-    },
-    {
-      "Path":  "KVLShield-B_Fab.gbr",
-      "FileFunction":  "AssemblyDrawing,Bot",
-      "FilePolarity":  "Positive"
     }
   ],
   "MaterialStackup":
@@ -110,10 +80,6 @@
     {
       "Type":  "Legend",
       "Notes":  "Layer F.SilkS"
-    },
-    {
-      "Type":  "SolderPaste",
-      "Notes":  "Layer F.Paste"
     },
     {
       "Type":  "SolderMask",
@@ -135,10 +101,6 @@
     {
       "Type":  "SolderMask",
       "Notes":  "Layer B.Mask"
-    },
-    {
-      "Type":  "SolderPaste",
-      "Notes":  "Layer B.Paste"
     },
     {
       "Type":  "Legend",

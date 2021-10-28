@@ -607,9 +607,9 @@ $Comp
 L Connector_Generic:Conn_01x04 J2
 U 1 1 61790991
 P 1000 4950
-F 0 "J2" H 918 4625 50  0000 C CNN
-F 1 "OLED" H 918 4716 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 1000 4950 50  0001 C CNN
+F 0 "J2" H 1000 4550 50  0000 C CNN
+F 1 "OLED" H 1000 4650 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 1000 4950 50  0001 C CNN
 F 3 "~" H 1000 4950 50  0001 C CNN
 	1    1000 4950
 	-1   0    0    1   
