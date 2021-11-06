@@ -5,9 +5,9 @@
     {
       "Vendor":      "KiCad",
       "Application": "Pcbnew",
-      "Version":     "(5.1.9)-1"
+      "Version":     "(5.1.10)-1"
     },
-    "CreationDate":  "2021-10-28T18:27:29-05:00"
+    "CreationDate":  "2021-11-05T01:01:10-05:00"
   },
   "GeneralSpecs":
   {
@@ -40,37 +40,47 @@
   "FilesAttributes":
   [
     {
-      "Path":  "KVLShield-F_Cu.gbr",
+      "Path":  "KVLShield-F_Cu.gtl",
       "FileFunction":  "Copper,L1,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "KVLShield-B_Cu.gbr",
+      "Path":  "KVLShield-B_Cu.gbl",
       "FileFunction":  "Copper,L2,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "KVLShield-F_SilkS.gbr",
+      "Path":  "KVLShield-F_Paste.gtp",
+      "FileFunction":  "SolderPaste,Top",
+      "FilePolarity":  "Positive"
+    },
+    {
+      "Path":  "KVLShield-B_Paste.gbp",
+      "FileFunction":  "SolderPaste,Bot",
+      "FilePolarity":  "Positive"
+    },
+    {
+      "Path":  "KVLShield-F_SilkS.gto",
       "FileFunction":  "Legend,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "KVLShield-B_SilkS.gbr",
+      "Path":  "KVLShield-B_SilkS.gbo",
       "FileFunction":  "Legend,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "KVLShield-F_Mask.gbr",
+      "Path":  "KVLShield-F_Mask.gts",
       "FileFunction":  "SolderMask,Top",
       "FilePolarity":  "Negative"
     },
     {
-      "Path":  "KVLShield-B_Mask.gbr",
+      "Path":  "KVLShield-B_Mask.gbs",
       "FileFunction":  "SolderMask,Bot",
       "FilePolarity":  "Negative"
     },
     {
-      "Path":  "KVLShield-Edge_Cuts.gbr",
+      "Path":  "KVLShield-Edge_Cuts.gm1",
       "FileFunction":  "Profile",
       "FilePolarity":  "Positive"
     }
@@ -80,6 +90,10 @@
     {
       "Type":  "Legend",
       "Notes":  "Layer F.SilkS"
+    },
+    {
+      "Type":  "SolderPaste",
+      "Notes":  "Layer F.Paste"
     },
     {
       "Type":  "SolderMask",
@@ -101,6 +115,10 @@
     {
       "Type":  "SolderMask",
       "Notes":  "Layer B.Mask"
+    },
+    {
+      "Type":  "SolderPaste",
+      "Notes":  "Layer B.Paste"
     },
     {
       "Type":  "Legend",
