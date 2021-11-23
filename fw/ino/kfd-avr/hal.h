@@ -6,13 +6,17 @@
 // 16MHz, as most avr arduinos are
 #define FCPU 16000000
 
-#define LED_PIN 13  // most arduinos have a light on pin 13
+#define ACTIVITY_LED_PIN 7  // if building without the shield, change this to 13 for an activity indicator on the built-in LED
+#define SENSE_LED_PIN 6
 #define DATA_TX 5   // TWI Data TX
 #define DATA_RX 3   // TWI Data RX (INT0)
 #define SNS_TX 4    // TWI Sense TX
 #define SNS_RX 2    // TWI Sense RX (INT1)
-#define GPIO1 6
+#define GPIO1 8
 #define GPIO2 9
+#define UP_BUTTON_PIN 14
+#define DOWN_BUTTON_PIN 15
+#define ENTER_BUTTON_PIN 16
 
 void halInit(void);
 
@@ -24,11 +28,17 @@ void halEnterBsl(void);
 
 void halReset(void);
 
-void halLed1On(void);
+void halActLedOn(void);
 
-void halLed1Off(void);
+void halActLedOff(void);
 
-void halLed1Toggle(void);
+void halActLedToggle(void);
+
+void halSnsLedOn(void);
+
+void halSnsLedOff(void);
+
+void halSnsLedToggle(void);
 
 void halGpio1High(void);
 

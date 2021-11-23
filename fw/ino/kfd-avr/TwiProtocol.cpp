@@ -118,6 +118,7 @@ uint8_t twiSelfTest(void)
     // disable normal operation
     DISABLE_KFD_RX_INT
     halGpio1High();
+    halActLedOff();
 
     // test case 1 - KFD shorted to GNDISO
     // KFD_RX should be IDLE (5VISO)
@@ -237,6 +238,7 @@ uint8_t twiSelfTest(void)
     // return to normal operation
     halKfdTxIdle();
     halGpio1Low();
+    halActLedOn();
     ENABLE_KFD_RX_INT
     halSenTxConn();
 
@@ -260,6 +262,7 @@ void twiSendKeySig(void)
 {
     DISABLE_KFD_RX_INT
     halGpio1High();
+    halActLedOff();
 
     busySending = 1;
     timerType = 1;
@@ -279,6 +282,7 @@ void twiSendKeySig(void)
     while (busySending); // wait for completion
 
     halGpio1Low();
+    halActLedOn();
     ENABLE_KFD_RX_INT
 }
 
@@ -286,6 +290,7 @@ void twiSendPhyByte(uint8_t byteToSend)
 {
     DISABLE_KFD_RX_INT
     halGpio1High();
+    halActLedOff();
 
     busySending = 1;
     timerType = 2;
@@ -315,6 +320,7 @@ void twiSendPhyByte(uint8_t byteToSend)
     while (busySending); // wait for completion
 
     halGpio1Low();
+    halActLedOn();
     ENABLE_KFD_RX_INT
 }
 
@@ -322,6 +328,7 @@ void Port_1(void)
 {
     DISABLE_KFD_RX_INT
     halGpio1High();
+    halActLedOff();
 
     timerType = 0;
     rxBitsLeft = 10;
@@ -352,6 +359,7 @@ ISR(TIMER1_COMPA_vect)
             
             while (KFD_RX_IS_BUSY); // wait for idle
             halGpio1Low();
+            halActLedOn();
             ENABLE_KFD_RX_INT
             RXByte = RXByte >> 1; // remove start bit
             RXByte &= 0xFF; // remove parity bit

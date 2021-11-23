@@ -1,4 +1,30 @@
-# [KFDtool](https://github.com/KFDtool/KFDtool)
+# KFD-AVR
+
+A fork of the amazing [KFDTool](https://github.com/KFDTool/KFDTool) software for an Arduino, plus schematics and board files for a shield.
+
+Completed shields can be purchased from the [online store](https://store.omahacommunicationsys.com)
+
+Note: You must use the build of the KFDTool software attached to this GitHub repo in order for your homebrew adapter to work. The stock KFDTool software will not find your Arduino.
+
+Currently, the following boards have been tested and confirmed to work:
+
+* Arduino Uno (and clones)
+* Arduino Uno R3 (and clones)
+
+The following boards should work, however have not been tested:
+
+* Arduino Mega 2560 (and clones)
+* Arduino Leonardo (and clones)
+* Arduino Pro Micro (and clones)
+* Arduino Nano (and clones)
+* Basically anything using an ATMega 328p, 2560, 32u4, or 16u2
+
+The following boards have been reported to work with minor modifications:
+
+* LGT8F328P - need to adjust frequency and remove all of the EEPROM references
+
+Further testing and problem reporting by the community is encouraged to further improve compatibility with other devices.
+# Original Readme:
 
 Open Source P25 Key Fill Device
 

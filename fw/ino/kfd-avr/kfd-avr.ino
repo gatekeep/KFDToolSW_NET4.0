@@ -18,7 +18,7 @@ void setup()
 
     twiInit();
 
-    halLed1On();
+    halActLedOn();
 }
 
 void loop()
@@ -315,7 +315,7 @@ void loop()
 
                 halDelayMs(3000); // wait 3 seconds
 
-                halLed1Off();
+                halActLedOff();
 
                 halEnterBsl();
             }
@@ -345,7 +345,7 @@ void loop()
 
                 halDelayMs(3000); // wait 3 seconds
 
-                halLed1Off();
+                halActLedOff();
 
                 halReset();
             }
