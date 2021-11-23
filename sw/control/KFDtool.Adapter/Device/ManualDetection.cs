@@ -12,10 +12,10 @@ namespace KFDtool.Adapter.Device
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        /*
-        private const string APP_USB_VID = "2047";
-        private const string APP_USB_PID = "0A7C";
-        */
+        
+        //private const string APP_USB_VID = "2341";
+        //private const string APP_USB_PID = "0043";
+        
         private const string BSL_USB_VID = "2047";
         private const string BSL_USB_PID = "0200";
 
@@ -29,7 +29,8 @@ namespace KFDtool.Adapter.Device
                 string.Format("SELECT * FROM Win32_PnPEntity WHERE DeviceID LIKE '%USB\\\\VID_{0}&PID_{1}%'", APP_USB_VID, APP_USB_PID)
                 );
             */
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM WIN32_SerialPort");
+            
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE ClassGuid=\"{4d36e978-e325-11ce-bfc1-08002be10318}\"");
 
             foreach (ManagementObject queryObj in searcher.Get())
             {
