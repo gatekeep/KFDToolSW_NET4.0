@@ -17,13 +17,42 @@ The following boards should work, however have not been tested:
 * Arduino Leonardo (and clones)
 * Arduino Pro Micro (and clones)
 * Arduino Nano (and clones)
-* Basically anything using an ATMega 328p, 2560, 32u4, or 16u2
+* Basically anything using an ATMega328p, 2560, 32u4, or 16u2
 
 The following boards have been reported to work with minor modifications:
 
 * LGT8F328P - need to adjust frequency and remove all of the EEPROM references
 
 Further testing and problem reporting by the community is encouraged to further improve compatibility with other devices.
+
+## Setup/Installation
+
+Setup consists of three parts.
+
+1. Hardware Setup
+2. Firmware Flashing
+3. Software Setup
+
+### Hardware Setup
+
+The hardware for the KFD-AVR fork is very simple. You can either purchase a KFDShield from the [online store](https://store.omahacommunicationsys.com), or build your own circuit on a breadboard. The bare minimum you need to get going is this:
+
+![schematic](doc/pic/basic_hw_schematic.png)
+
+Where PIN3 is Arduino pin 3, PIN5 is Arduino pin 5, DATA is the radio data line, SNS, is the radio sense line, and GND is the radio ground line. VCC is 5 volts (make sure you are using a 5 volt tolerant board).
+
+If you are using a shield, on the TRS connector, tip is data, ring is sense, and shield is ground.
+
+### Firmware Flashing
+
+Head to the Releases page and download both the Firmware and Software zips from the latest version. Save the software for later. Unzip Firmware, and open the kfd-avr.ino file in the Arduino IDE, and select your board type and COM port from the Tools menu. If you are using a board that is not explicitly supported, or DIYing your own rather than using a shield, you should confirm that all options in the hal.h file are correct - namely, CPU speed and data/LED pins. Once you are done, hit upload.
+
+### Software Setup
+
+The software distributed with the KFD-AVR release is "flat pack", meaning there is no installer supplied - all you need to do to run the software is unzip the Software zip and run the KFDToolGui.exe file. You may see an "Error - timeout while waiting for data" when first opening the software. **This is completely normal, especially if you have many COM ports on your system. The warning will be suppressed in a future release.** Select the COM port corresponding to your Arduino, and you should see information populate in the bottom bar of the screen indicating that the KFDTool software is connecting to your Arduino.
+
+In order to validate that every part of the chain - hardware, firmware, and software - is working, go to the Utility - Adapter Self Test menu, and click "Detect MR". This will send a signal to your radio asking it to reply and confirm it is there. If you get a success message, congrats! You are ready to load keys.
+
 # Original Readme:
 
 Open Source P25 Key Fill Device
