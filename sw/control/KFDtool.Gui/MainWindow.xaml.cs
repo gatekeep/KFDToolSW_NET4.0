@@ -737,22 +737,6 @@ namespace KFDtool.Gui
             Application.Current.Shutdown();
         }
 
-        private void Manual_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Process.Start("KFDtool_Manual.pdf");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(string.Format("Error -- {0}", ex.Message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void Website_MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("https://www.kfdtool.com");
-        }
 
         private void About_MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -769,7 +753,7 @@ namespace KFDtool.Gui
 #else
             MessageBox.Show(
                 string.Format(
-                    "KFDtool Control Application{0}{0}Copyright 2019-2020 Daniel Dugger{0}{0}Version: {1}",
+                    "KFDtool Control Application{0}{0}Copyright 2019-2020 Daniel Dugger{0}{0}Copyright 2021 Natalie 'Nat' Moore{0}{0}Version: {1}",
                     Environment.NewLine,
                     Settings.AssemblyInformationalVersion
                 ),
