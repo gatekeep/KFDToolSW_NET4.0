@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace KFDtool.P25.TransferConstructs
 {
@@ -276,7 +276,6 @@ namespace KFDtool.P25.TransferConstructs
             {
                 throw new ArgumentException("No device selected");
             }
-
             AdapterProtocol ap = null;
 
             try
@@ -326,7 +325,6 @@ namespace KFDtool.P25.TransferConstructs
             {
                 throw new ArgumentException("No device selected");
             }
-
             AdapterProtocol ap = null;
 
             try
@@ -437,7 +435,6 @@ namespace KFDtool.P25.TransferConstructs
             {
                 throw new ArgumentException("No device selected");
             }
-
             AdapterProtocol ap = null;
 
             try
@@ -478,7 +475,6 @@ namespace KFDtool.P25.TransferConstructs
             {
                 throw new ArgumentException("No device selected");
             }
-
             AdapterProtocol ap = null;
 
             try

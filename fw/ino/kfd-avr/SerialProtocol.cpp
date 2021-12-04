@@ -1,14 +1,17 @@
 #include "SerialProtocol.h"
+#include "hal.h"
 #include <Arduino.h>
 
-#define SOM_EOM 0x61
-#define SOM_EOM_PLACEHOLDER 0x62
-#define ESC 0x63
-#define ESC_PLACEHOLDER 0x64
+
+#define SOM 0x61
+#define SOM_PLACEHOLDER 0x62
+#define EOM 0x63
+#define EOM_PLACEHOLDER 0x64
+#define ESC 0x70
+#define ESC_PLACEHOLDER 0x71
 
 uint16_t inDataCount = 0;
 uint8_t inData[128];
-bool messageStarted = false;
 
 void spConnect(void)
 {
@@ -24,13 +27,22 @@ void spDisconnect(void)
 
 uint16_t spRxData(uint8_t* outData)
 {
+  uint8_t inByte;
     while (Serial.available() > 0) {
-        inData[inDataCount] = Serial.read();
+        inByte = Serial.read();
+
+        // reset the buffer if we have a start of message flag coming in
+        if (inByte == SOM)
+        {
+          inDataCount = 0;
+        }
+        
+        inData[inDataCount] = inByte;
         inDataCount++;
     }
 
-    // don't process partial frames
-    if (inDataCount < 3 || inData[0] != SOM_EOM || inData[inDataCount - 1] != SOM_EOM)
+    // don't process until we receive EOM
+    if (inData[inDataCount - 1] != EOM)
     {
         return 0;
     }
@@ -45,14 +57,19 @@ uint16_t spRxData(uint8_t* outData)
         {
             inIndex++;
 
-            if (inData[inIndex] == SOM_EOM_PLACEHOLDER)
+            if (inData[inIndex] == SOM_PLACEHOLDER)
             {
-                outData[outIndex] = SOM_EOM;
+                outData[outIndex] = SOM;
+            }
+            else if (inData[inIndex] == EOM_PLACEHOLDER)
+            {
+                outData[outIndex] = EOM;
             }
             else if (inData[inIndex] == ESC_PLACEHOLDER)
             {
                 outData[outIndex] = ESC;
             }
+            
         }
         else
         {
@@ -64,8 +81,7 @@ uint16_t spRxData(uint8_t* outData)
 
     // we've already processed the message and set the pointer
     // reset the count (mark the buffer as free)
-    inDataCount = 0;
-    
+    inDataCount = 0;   
 
     return outIndex;
 }
@@ -79,7 +95,7 @@ uint16_t spFrameData(const uint8_t* inData,
 
     for (i = 0; i < inLength; i++)
     {
-        if ((inData[i] == SOM_EOM) || (inData[i] == ESC))
+        if ((inData[i] == SOM) || (inData[i] == EOM) || (inData[i] == ESC))
         {
             escCharsNeeded++;
         }
@@ -87,18 +103,25 @@ uint16_t spFrameData(const uint8_t* inData,
 
     uint16_t totalCharsNeeded = 1 + inLength + escCharsNeeded + 1;
 
-    *(outData + 0) = SOM_EOM;
+    *(outData + 0) = SOM;
 
     uint16_t j;
     uint16_t k = 1;
 
     for (j = 0; j < inLength; j++)
     {
-        if (inData[j] == SOM_EOM)
+        if (inData[j] == SOM)
         {
             *(outData + k) = ESC;
             k++;
-            *(outData + k) = SOM_EOM_PLACEHOLDER;
+            *(outData + k) = SOM_PLACEHOLDER;
+            k++;
+        }
+        else if (inData[j] == EOM)
+        {
+            *(outData + k) = ESC;
+            k++;
+            *(outData + k) = EOM_PLACEHOLDER;
             k++;
         }
         else if (inData[j] == ESC)
@@ -115,7 +138,7 @@ uint16_t spFrameData(const uint8_t* inData,
         }
     }
 
-    *(outData + (totalCharsNeeded - 1)) = SOM_EOM;
+    *(outData + (totalCharsNeeded - 1)) = EOM;
 
     return totalCharsNeeded;
 }

@@ -41,8 +41,6 @@
                 </MenuItem>
                 <MenuItem Name="UtilityMenu" Header="_Utility">
                     <MenuItem Name="NavigateUtilityFixDesKeyParity" Header="_Fix DES Key Parity" IsCheckable="True" Click="Navigate_MenuItem_Click" />
-                    <MenuItem Name="NavigateUtilityUpdateAdapterFirmware" Header="_Update Adapter Firmware" IsCheckable="True" Click="Navigate_MenuItem_Click" />
-                    <MenuItem Name="NavigateUtilityInitializeAdapter" Header="_Initialize Adapter" IsCheckable="True" Click="Navigate_MenuItem_Click" />
                     <MenuItem Name="NavigateUtilityAdapterSelfTest" Header="_Adapter Self Test" IsCheckable="True" Click="Navigate_MenuItem_Click" />
                 </MenuItem>
                 <MenuItem Header="_Help">

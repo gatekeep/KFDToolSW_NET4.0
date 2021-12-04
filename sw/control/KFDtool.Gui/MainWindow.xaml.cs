@@ -177,20 +177,6 @@ namespace KFDtool.Gui
                 Settings.ScreenCurrent = item;
                 UpdateTitle("Utility - Fix DES Key Parity");
             }
-            else if (item == "NavigateUtilityUpdateAdapterFirmware")
-            {
-                control = new Control.UtilUpdateAdapterFw();
-                NavigateUtilityUpdateAdapterFirmware.IsChecked = true;
-                Settings.ScreenCurrent = item;
-                UpdateTitle("Utility - Update Adapter Firmware");
-            }
-            else if (item == "NavigateUtilityInitializeAdapter")
-            {
-                control = new Control.UtilInitAdapter();
-                NavigateUtilityInitializeAdapter.IsChecked = true;
-                Settings.ScreenCurrent = item;
-                UpdateTitle("Utility - Initialize Adapter");
-            }
             else if (item == "NavigateUtilityAdapterSelfTest")
             {
                 control = new Control.UtilAdapterSelfTest();
@@ -694,7 +680,7 @@ namespace KFDtool.Gui
 
                 Version apVersion = new Version(apVerStr);
 
-                if (apVersion.Major != 1)
+                if (apVersion.Major != 2)
                 {
                     MessageBox.Show(string.Format("Adapter protocol version not compatible ({0})", apVerStr), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;

@@ -12,10 +12,12 @@ namespace KFDtool.Adapter.Protocol.Serial
     {
         private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        const byte SOM_EOM = 0x61;
-        const byte SOM_EOM_PLACEHOLDER = 0x62;
-        const byte ESC = 0x63;
-        const byte ESC_PLACEHOLDER = 0x64;
+        const byte SOM = 0x61;
+        const byte SOM_PLACEHOLDER = 0x62;
+        const byte EOM = 0x63;
+        const byte EOM_PLACEHOLDER = 0x64;
+        const byte ESC = 0x70;
+        const byte ESC_PLACEHOLDER = 0x71;
 
         private static AutoResetEvent CancelRead = new AutoResetEvent(false);
 
@@ -50,7 +52,15 @@ namespace KFDtool.Adapter.Protocol.Serial
 
         public void Open()
         {
-            Port.Open();
+            // don't open the port if it is open already
+            if (!Port.IsOpen)
+            {
+                Port.Open();
+            }
+            else
+            {
+                Logger.Debug("Not opening already open serial port");
+            }
         }
 
         public void Close()
@@ -75,7 +85,7 @@ namespace KFDtool.Adapter.Protocol.Serial
         {
             List<byte> frameData = new List<byte>();
 
-            frameData.Add(SOM_EOM);
+            frameData.Add(SOM);
 
             foreach (byte b in data)
             {
@@ -84,10 +94,15 @@ namespace KFDtool.Adapter.Protocol.Serial
                     frameData.Add(ESC);
                     frameData.Add(ESC_PLACEHOLDER);
                 }
-                else if (b == SOM_EOM)
+                else if (b == SOM)
                 {
                     frameData.Add(ESC);
-                    frameData.Add(SOM_EOM_PLACEHOLDER);
+                    frameData.Add(SOM_PLACEHOLDER);
+                }
+                else if (b == EOM)
+                {
+                    frameData.Add(ESC);
+                    frameData.Add(EOM_PLACEHOLDER);
                 }
                 else
                 {
@@ -95,7 +110,7 @@ namespace KFDtool.Adapter.Protocol.Serial
                 }
             }
 
-            frameData.Add(SOM_EOM);
+            frameData.Add(EOM);
 
             byte[] outData = frameData.ToArray();
 
@@ -192,50 +207,54 @@ namespace KFDtool.Adapter.Protocol.Serial
             {
                 Logger.Trace("new byte: 0x{0:X2}", b);
 
-                if (b == SOM_EOM)
+                if (b == SOM)
                 {
                     FoundStart = true;
-
-                    if (FrameBuffer.Count > 0)
+                    Logger.Trace("found start byte");
+                }
+                else if (b == EOM)
+                {
+                    for (int i = 0; i < FrameBuffer.Count; i++)
                     {
-                        for (int i = 0; i < FrameBuffer.Count; i++)
+                        if (FrameBuffer[i] == ESC)
                         {
-                            if (FrameBuffer[i] == ESC)
+                            FrameBuffer.RemoveAt(i);
+
+                            if (i == FrameBuffer.Count)
                             {
-                                FrameBuffer.RemoveAt(i);
+                                throw new Exception("escape character at end");
+                            }
 
-                                if (i == FrameBuffer.Count)
-                                {
-                                    throw new Exception("escape character at end");
-                                }
-
-                                if (FrameBuffer[i] == ESC_PLACEHOLDER)
-                                {
-                                    FrameBuffer[i] = ESC;
-                                }
-                                else if (FrameBuffer[i] == SOM_EOM_PLACEHOLDER)
-                                {
-                                    FrameBuffer[i] = SOM_EOM;
-                                }
-                                else
-                                {
-                                    throw new Exception("invalid character after escape character");
-                                }
+                            if (FrameBuffer[i] == ESC_PLACEHOLDER)
+                            {
+                                FrameBuffer[i] = ESC;
+                            }
+                            else if (FrameBuffer[i] == SOM_PLACEHOLDER)
+                            {
+                                FrameBuffer[i] = SOM;
+                            }
+                            else if (FrameBuffer[i] == EOM_PLACEHOLDER)
+                            {
+                                FrameBuffer[i] = EOM;
+                            }
+                            else
+                            {
+                                throw new Exception("invalid character after escape character");
                             }
                         }
-
-                        List<byte> packet = new List<byte>();
-
-                        packet.AddRange(FrameBuffer);
-
-                        PacketBuffer.Add(packet);
-
-                        Logger.Debug("packet contents: {0}", BitConverter.ToString(packet.ToArray()));
-
-                        FrameBuffer.Clear();
-
-                        Logger.Debug("packet buffer length: {0}", PacketBuffer.Count);
                     }
+
+                    List<byte> packet = new List<byte>();
+
+                    packet.AddRange(FrameBuffer);
+
+                    PacketBuffer.Add(packet);
+
+                    Logger.Debug("packet contents: {0}", BitConverter.ToString(packet.ToArray()));
+
+                    FrameBuffer.Clear();
+
+                    Logger.Debug("packet buffer length: {0}", PacketBuffer.Count);
                 }
                 else
                 {

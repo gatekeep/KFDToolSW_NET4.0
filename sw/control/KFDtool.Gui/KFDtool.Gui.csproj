@@ -101,12 +101,6 @@
     <Compile Include="Control\UtilFixDesKeyParity.xaml.cs">
       <DependentUpon>UtilFixDesKeyParity.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\UtilInitAdapter.xaml.cs">
-      <DependentUpon>UtilInitAdapter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Control\UtilUpdateAdapterFw.xaml.cs">
-      <DependentUpon>UtilUpdateAdapterFw.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialog\ContainerEdit.xaml.cs">
       <DependentUpon>ContainerEdit.xaml</DependentUpon>
     </Compile>
@@ -168,14 +162,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\UtilFixDesKeyParity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Control\UtilInitAdapter.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Control\UtilUpdateAdapterFw.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
