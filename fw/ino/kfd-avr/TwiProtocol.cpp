@@ -2,15 +2,28 @@
 
 #include "TwiProtocol.h"
 
-#define TIME_OFFSET 1
-#define BIT_TIME FCPU/4000 * TIME_OFFSET
-#define HALF_BIT_TIME BIT_TIME/2 * TIME_OFFSET
-#define SIG_TIME BIT_TIME*4 * TIME_OFFSET
+#define BIT_TIME FCPU/4000
+#define HALF_BIT_TIME BIT_TIME/2
+#define SIG_TIME BIT_TIME*4
+
+#if defined(__AVR_ATmega328P__)
+// pin 3 is INT1
+#define CLEAR_INTERRUPTS EIFR=2
+#elif defined(__AVR_ATmega32U4__)
+// pin 3 is INT0
+#define CLEAR_INTERRUPTS EIFR=4
+#elif defined(__AVR_ATmega2560__)
+// WIP
+#define CLEAR_INTERRUPTS EIFR=0b00100000
+#else
+#error I don't think I'm compatible with your CPU. You might have to check the TwiProtocol file.
+#endif
+
 
 // set EIFR to 2 clears the interrupt flag
 // probably don't need to do it in the detach side but it keeps anything latent from firing off
-#define ENABLE_KFD_RX_INT cli(); EIFR = 2; attachInterrupt(digitalPinToInterrupt(DATA_RX), Port_1, FALLING); sei();
-#define DISABLE_KFD_RX_INT cli(); EIFR = 2; detachInterrupt(digitalPinToInterrupt(DATA_RX)); sei();
+#define ENABLE_KFD_RX_INT cli(); CLEAR_INTERRUPTS; attachInterrupt(digitalPinToInterrupt(DATA_RX), Port_1, FALLING); sei();
+#define DISABLE_KFD_RX_INT cli(); CLEAR_INTERRUPTS; detachInterrupt(digitalPinToInterrupt(DATA_RX)); sei();
 
 #define KFD_RX_IS_BUSY digitalRead(DATA_RX) == LOW
 #define KFD_RX_IS_IDLE digitalRead(DATA_RX) == HIGH
