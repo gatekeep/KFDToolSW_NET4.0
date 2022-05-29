@@ -10,10 +10,10 @@ Currently, the following boards have been tested and confirmed to work:
 
 * Arduino Uno (and clones)
 * Arduino Uno R3 (and clones)
+* Arduino Mega 2560 (and clones)
 
 The following boards should work, however have not been tested:
 
-* Arduino Mega 2560 (and clones)
 * Arduino Leonardo (and clones)
 * Arduino Pro Micro (and clones)
 * Arduino Nano (and clones)
