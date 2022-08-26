@@ -279,7 +279,7 @@ void twiSendKeySig(void)
 
     busySending = 1;
     timerType = 1;
-    txNumLeft = 100;
+    txNumLeft = 105;
 
     // pause interrupts; clear and init registers
     noInterrupts();
@@ -409,8 +409,8 @@ ISR(TIMER1_COMPA_vect)
         }
         else
         {
-            //if (txNumLeft > 5)
-            if (true)
+            if (txNumLeft > 5)
+            //if (true)
             {
                 halKfdTxBusy();
             }
