@@ -10,7 +10,7 @@ namespace KFDtool.Adapter.Device
 {
     public class ManualDetection
     {
-        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         
         //private const string APP_USB_VID = "2341";
@@ -36,7 +36,7 @@ namespace KFDtool.Adapter.Device
             {
                 string caption = queryObj["Caption"].ToString();
 
-                Logger.Trace("caption: {0}", caption);
+                //Logger.Trace("caption: {0}", caption);
 
                 // match "COM10" from "KFDtool (COM10)"
                 // do not match "KFDtool" which appears before the COM port is assigned
@@ -48,7 +48,7 @@ namespace KFDtool.Adapter.Device
                 {
                     string port = match.Groups[1].ToString();
 
-                    Logger.Trace("port: {0}", port);
+                    //Logger.Trace("port: {0}", port);
 
                     devices.Add(port);
                 }

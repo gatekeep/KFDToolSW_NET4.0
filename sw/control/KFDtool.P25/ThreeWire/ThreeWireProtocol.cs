@@ -13,7 +13,7 @@ namespace KFDtool.P25.ThreeWire
 {
     public class ThreeWireProtocol : IDeviceProtocol
     {
-        private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
+        //private static N//Log.Logger Log = N//Log.LogManager.GetCurrentClassLogger();
 
         private const int TIMEOUT_NONE = 0; // no timeout
         private const int TIMEOUT_STD = 5000; // 5 second timeout
@@ -34,7 +34,7 @@ namespace KFDtool.P25.ThreeWire
 
         public void SendKeySignature()
         {
-            Log.Debug("kfd: key signature");
+            //Log.Debug("kfd: key signature");
             Protocol.SendKeySignature();
         }
 
@@ -43,14 +43,14 @@ namespace KFDtool.P25.ThreeWire
             // send ready req opcode
             List<byte> cmd = new List<byte>();
             cmd.Add(OPCODE_READY_REQ);
-            Log.Debug("kfd: ready req");
-            Log.Debug("kfd -> mr: {0}", Utility.DataFormat(cmd));
+            //Log.Debug("kfd: ready req");
+            //Log.Debug("kfd -> mr: {0}", Utility.DataFormat(cmd));
             Protocol.SendData(cmd);
 
             // receive ready general mode opcode
-            Log.Debug("mr: ready general mode");
+            //Log.Debug("mr: ready general mode");
             byte rsp = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("kfd -> mr: {0}", Utility.DataFormat(rsp));
+            //Log.Debug("kfd -> mr: {0}", Utility.DataFormat(rsp));
             if (rsp != OPCODE_READY_GENERAL_MODE)
             {
                 throw new Exception("mr: unexpected opcode");
@@ -103,45 +103,45 @@ namespace KFDtool.P25.ThreeWire
             int length = 0;
 
             // receive length high byte
-            Log.Debug("mr: length high byte");
+            //Log.Debug("mr: length high byte");
             temp = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: 0x{0:X2}", temp);
+            //Log.Debug("mr -> kfd: 0x{0:X2}", temp);
 
             length |= (temp & 0xFF) << 8;
 
             // receive length low byte
-            Log.Debug("mr: length low byte");
+            //Log.Debug("mr: length low byte");
             temp = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
 
             length |= temp & 0xFF;
 
-            Log.Debug("length: {0}", length);
+            //Log.Debug("length: {0}", length);
 
             List<byte> toCrc = new List<byte>();
 
             // receive control
-            Log.Debug("mr: control");
+            //Log.Debug("mr: control");
             temp = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
             toCrc.Add(temp);
 
             // receive dest rsi high byte
-            Log.Debug("mr: dest rsi high byte");
+            //Log.Debug("mr: dest rsi high byte");
             temp = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
             toCrc.Add(temp);
 
             // receive dest rsi mid byte
-            Log.Debug("mr: dest rsi mid byte");
+            //Log.Debug("mr: dest rsi mid byte");
             temp = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
             toCrc.Add(temp);
 
             // receive dest rsi low byte
-            Log.Debug("mr: dest rsi low byte");
+            //Log.Debug("mr: dest rsi low byte");
             temp = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
             toCrc.Add(temp);
 
             int bodyLength = length - 6;
@@ -150,9 +150,9 @@ namespace KFDtool.P25.ThreeWire
 
             for (int i = 0; i < bodyLength; i++)
             {
-                Log.Debug("mr: kmm byte {0} of {1}", i + 1, bodyLength);
+                //Log.Debug("mr: kmm byte {0} of {1}", i + 1, bodyLength);
                 temp = Protocol.GetByte(TIMEOUT_STD);
-                Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
+                //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(temp));
 
                 kmm.Add(temp);
             }
@@ -162,19 +162,19 @@ namespace KFDtool.P25.ThreeWire
             // calculate crc
             byte[] expectedCrc = CRC16.CalculateCrc(toCrc.ToArray());
 
-            Log.Debug("expected crc - high: 0x{0:X2}, low: 0x{1:X2}", expectedCrc[0], expectedCrc[1]);
+            //Log.Debug("expected crc - high: 0x{0:X2}, low: 0x{1:X2}", expectedCrc[0], expectedCrc[1]);
 
             byte[] crc = new byte[2];
 
             // receive crc high byte
-            Log.Debug("mr: crc high byte");
+            //Log.Debug("mr: crc high byte");
             crc[0] = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(crc[0]));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(crc[0]));
 
             // receive crc low byte
-            Log.Debug("mr: crc low byte");
+            //Log.Debug("mr: crc low byte");
             crc[1] = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(crc[1]));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(crc[1]));
 
             if (expectedCrc[0] != crc[0])
             {
@@ -194,14 +194,14 @@ namespace KFDtool.P25.ThreeWire
             // send transfer done opcode
             List<byte> cmd1 = new List<byte>();
             cmd1.Add(OPCODE_TRANSFER_DONE);
-            Log.Debug("kfd: transfer done");
-            Log.Debug("kfd -> mr: {0}", Utility.DataFormat(cmd1));
+            //Log.Debug("kfd: transfer done");
+            //Log.Debug("kfd -> mr: {0}", Utility.DataFormat(cmd1));
             Protocol.SendData(cmd1);
 
             // receive transfer done opcode
-            Log.Debug("mr: transfer done");
+            //Log.Debug("mr: transfer done");
             byte rsp1 = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(rsp1));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(rsp1));
             if (rsp1 != OPCODE_TRANSFER_DONE)
             {
                 throw new Exception("mr: unexpected opcode");
@@ -210,14 +210,14 @@ namespace KFDtool.P25.ThreeWire
             // send disconnect opcode
             List<byte> cmd2 = new List<byte>();
             cmd2.Add(OPCODE_DISCONNECT);
-            Log.Debug("kfd: disconnect");
-            Log.Debug("kfd -> mr: {0}", Utility.DataFormat(cmd2));
+            //Log.Debug("kfd: disconnect");
+            //Log.Debug("kfd -> mr: {0}", Utility.DataFormat(cmd2));
             Protocol.SendData(cmd2);
 
             // receive disconnect ack opcode
-            Log.Debug("mr: disconnect ack");
+            //Log.Debug("mr: disconnect ack");
             byte rsp2 = Protocol.GetByte(TIMEOUT_STD);
-            Log.Debug("mr -> kfd: {0}", Utility.DataFormat(rsp2));
+            //Log.Debug("mr -> kfd: {0}", Utility.DataFormat(rsp2));
             if (rsp2 != OPCODE_DISCONNECT_ACK)
             {
                 throw new Exception("mr: unexpected opcode");
@@ -232,13 +232,13 @@ namespace KFDtool.P25.ThreeWire
             }
 
             List<byte> txFrame = CreateKmmFrame(inKmm.ToList());
-            Log.Debug("out: {0}", Utility.DataFormat(txFrame));
+            //Log.Debug("out: {0}", Utility.DataFormat(txFrame));
             Protocol.SendData(txFrame);
         }
 
         public byte[] PerformKmmTransfer(byte[] inKmm)
         {
-            Log.Debug("KFD -> MR KMM FRAME: {0}", BitConverter.ToString(inKmm));
+            //Log.Debug("KFD -> MR KMM FRAME: {0}", BitConverter.ToString(inKmm));
 
             // send kmm frame
             SendKmm(inKmm);
@@ -248,32 +248,32 @@ namespace KFDtool.P25.ThreeWire
             // receive kmm opcode
             try
             {
-                Log.Debug("in: waiting for kmm opcode");
+                //Log.Debug("in: waiting for kmm opcode");
                 rx = Protocol.GetByte(TIMEOUT_STD);
-                Log.Trace("in: {0}", Utility.DataFormat(rx));
+                //Log.Trace("in: {0}", Utility.DataFormat(rx));
             }
             catch (Exception)
             {
                 string msg = string.Format("in: timed out waiting for kmm opcode");
-                Log.Warn(msg);
+                //Log.Warn(msg);
                 throw new Exception(msg);
             }
 
             if (rx == OPCODE_KMM)
             {
-                Log.Debug("in: got kmm opcode");
+                //Log.Debug("in: got kmm opcode");
             }
             else
             {
                 string msg = string.Format("in: unexpected kmm opcode, expected ({0}) got ({1})", Utility.DataFormat(OPCODE_KMM), Utility.DataFormat(rx));
-                Log.Warn(msg);
+                //Log.Warn(msg);
                 throw new Exception(msg);
             }
 
             // receive kmm frame
             byte[] rxFrame = ParseKmmFrame().ToArray();
 
-            Log.Debug("MR -> KFD KMM FRAME: {0}", BitConverter.ToString(rxFrame));
+            //Log.Debug("MR -> KFD KMM FRAME: {0}", BitConverter.ToString(rxFrame));
 
             return rxFrame;
         }
@@ -319,20 +319,20 @@ namespace KFDtool.P25.ThreeWire
                     // a rx key signature function should be added to the adapter
                     // to make this more robust and correct
 
-                    Log.Debug("in: waiting for key signature");
+                    //Log.Debug("in: waiting for key signature");
                     rx = Protocol.GetByte(TIMEOUT_NONE);
-                    Log.Trace("in: {0}", Utility.DataFormat(rx));
+                    //Log.Trace("in: {0}", Utility.DataFormat(rx));
 
                     byte sig = 0x00; // key signature
 
                     if (rx == sig)
                     {
-                        Log.Debug("in: got key signature");
+                        //Log.Debug("in: got key signature");
                     }
                     else
                     {
                         string msg = string.Format("in: unexpected key signature opcode, expected ({0}) got ({1})", Utility.DataFormat(sig), Utility.DataFormat(rx));
-                        Log.Warn(msg);
+                        //Log.Warn(msg);
                         continue;
                     }
 
@@ -340,32 +340,32 @@ namespace KFDtool.P25.ThreeWire
 
                     try
                     {
-                        Log.Debug("in: waiting for ready request opcode");
+                        //Log.Debug("in: waiting for ready request opcode");
                         rx = Protocol.GetByte(TIMEOUT_STD);
-                        Log.Trace("in: {0}", Utility.DataFormat(rx));
+                        //Log.Trace("in: {0}", Utility.DataFormat(rx));
                     }
                     catch (Exception)
                     {
                         string msg = string.Format("in: timed out waiting for ready request opcode");
-                        Log.Warn(msg);
+                        //Log.Warn(msg);
                         continue;
                     }
 
                     if (rx == OPCODE_READY_REQ)
                     {
-                        Log.Debug("in: got ready request opcode");
+                        //Log.Debug("in: got ready request opcode");
                     }
                     else
                     {
                         string msg = string.Format("in: unexpected ready request opcode, expected ({0}) got ({1})", Utility.DataFormat(OPCODE_READY_REQ), Utility.DataFormat(rx));
-                        Log.Warn(msg);
+                        //Log.Warn(msg);
                         continue;
                     }
 
                     /* TX: READY GENERAL MODE */
 
-                    Log.Debug("out: ready general mode opcode");
-                    Log.Trace("out: {0}", Utility.DataFormat(OPCODE_READY_GENERAL_MODE));
+                    //Log.Debug("out: ready general mode opcode");
+                    //Log.Trace("out: {0}", Utility.DataFormat(OPCODE_READY_GENERAL_MODE));
                     Protocol.SendByte(OPCODE_READY_GENERAL_MODE);
 
                     while (true)
@@ -374,20 +374,20 @@ namespace KFDtool.P25.ThreeWire
 
                         try
                         {
-                            Log.Debug("in: waiting for frame type opcode");
+                            //Log.Debug("in: waiting for frame type opcode");
                             rx = Protocol.GetByte(TIMEOUT_STD);
-                            Log.Trace("in: {0}", Utility.DataFormat(rx));
+                            //Log.Trace("in: {0}", Utility.DataFormat(rx));
                         }
                         catch (Exception)
                         {
                             string msg = string.Format("in: timed out waiting for frame type opcode");
-                            Log.Warn(msg);
+                            //Log.Warn(msg);
                             break;
                         }
 
                         if (rx == OPCODE_KMM)
                         {
-                            Log.Debug("in: got kmm opcode");
+                            //Log.Debug("in: got kmm opcode");
 
                             List<byte> rxFrame;
 
@@ -397,11 +397,11 @@ namespace KFDtool.P25.ThreeWire
                             }
                             catch (Exception ex)
                             {
-                                Log.Warn(ex.Message);
+                                //Log.Warn(ex.Message);
                                 break;
                             }
 
-                            Log.Debug("kmm frame in: {0}", BitConverter.ToString(rxFrame.ToArray()));
+                            //Log.Debug("kmm frame in: {0}", BitConverter.ToString(rxFrame.ToArray()));
 
                             KmmFrame kfdKmmFrame = null;
 
@@ -411,13 +411,13 @@ namespace KFDtool.P25.ThreeWire
                             }
                             catch (Exception ex)
                             {
-                                Log.Warn(ex.Message);
+                                //Log.Warn(ex.Message);
 
                                 byte[] message = rxFrame.ToArray();
 
                                 if (message.Length != 0)
                                 {
-                                    Log.Warn("unexpected message id: {0} (dec), {0:X} (hex)", message[0]);
+                                    //Log.Warn("unexpected message id: {0} (dec), {0:X} (hex)", message[0]);
 
                                     NegativeAcknowledgment kmm = new NegativeAcknowledgment();
 
@@ -465,8 +465,8 @@ namespace KFDtool.P25.ThreeWire
                             {
                                 ModifyKeyCommand cmdKmm = kfdKmmBody as ModifyKeyCommand;
 
-                                Log.Debug("keyset id: {0} (dec), {0:X} (hex)", cmdKmm.KeysetId);
-                                Log.Debug("algorithm id: {0} (dec), {0:X} (hex)", cmdKmm.AlgorithmId);
+                                //Log.Debug("keyset id: {0} (dec), {0:X} (hex)", cmdKmm.KeysetId);
+                                //Log.Debug("algorithm id: {0} (dec), {0:X} (hex)", cmdKmm.AlgorithmId);
 
                                 RekeyAcknowledgment rspKmm = new RekeyAcknowledgment();
 
@@ -477,11 +477,11 @@ namespace KFDtool.P25.ThreeWire
                                 {
                                     KeyItem item = cmdKmm.KeyItems[i];
 
-                                    Log.Debug("* key item {0} *", i);
-                                    Log.Debug("erase: {0}", item.Erase);
-                                    Log.Debug("sln: {0} (dec), {0:X} (hex)", item.SLN);
-                                    Log.Debug("key id: {0} (dec), {0:X} (hex)", item.KeyId);
-                                    Log.Debug("key: {0}", BitConverter.ToString(item.Key));
+                                    //Log.Debug("* key item {0} *", i);
+                                    //Log.Debug("erase: {0}", item.Erase);
+                                    //Log.Debug("sln: {0} (dec), {0:X} (hex)", item.SLN);
+                                    //Log.Debug("key id: {0} (dec), {0:X} (hex)", item.KeyId);
+                                    //Log.Debug("key: {0}", BitConverter.ToString(item.Key));
 
                                     string algName = string.Empty;
 
@@ -518,51 +518,51 @@ namespace KFDtool.P25.ThreeWire
                         }
                         else if (rx == OPCODE_TRANSFER_DONE)
                         {
-                            Log.Debug("in: got transfer done opcode");
+                            //Log.Debug("in: got transfer done opcode");
 
                             /* TX: TRANSFER DONE */
 
-                            Log.Debug("out: transfer done opcode");
-                            Log.Trace("out: {0}", Utility.DataFormat(OPCODE_TRANSFER_DONE));
+                            //Log.Debug("out: transfer done opcode");
+                            //Log.Trace("out: {0}", Utility.DataFormat(OPCODE_TRANSFER_DONE));
                             Protocol.SendByte(OPCODE_TRANSFER_DONE);
 
                             /* RX: DISCONNECT */
 
                             try
                             {
-                                Log.Debug("in: waiting for disconnect opcode");
+                                //Log.Debug("in: waiting for disconnect opcode");
                                 rx = Protocol.GetByte(TIMEOUT_STD);
-                                Log.Trace("in: {0}", Utility.DataFormat(rx));
+                                //Log.Trace("in: {0}", Utility.DataFormat(rx));
                             }
                             catch (Exception)
                             {
                                 string msg = string.Format("in: timed out waiting for disconnect opcode");
-                                Log.Warn(msg);
+                                //Log.Warn(msg);
                                 break;
                             }
 
                             if (rx == OPCODE_DISCONNECT)
                             {
-                                Log.Debug("in: got disconnect opcode");
+                                //Log.Debug("in: got disconnect opcode");
                             }
                             else
                             {
                                 string msg = string.Format("in: unexpected disconnect opcode, expected ({0}) got ({1})", Utility.DataFormat(OPCODE_DISCONNECT), Utility.DataFormat(rx));
-                                Log.Warn(msg);
+                                //Log.Warn(msg);
                                 break;
                             }
 
                             /* TX: DISCONNECT ACKNOWLEDGE */
 
-                            Log.Debug("out: disconnect acknowledge opcode");
-                            Log.Trace("out: {0}", Utility.DataFormat(OPCODE_DISCONNECT_ACK));
+                            //Log.Debug("out: disconnect acknowledge opcode");
+                            //Log.Trace("out: {0}", Utility.DataFormat(OPCODE_DISCONNECT_ACK));
                             Protocol.SendByte(OPCODE_DISCONNECT_ACK);
                             break;
                         }
                         else
                         {
                             string msg = string.Format("in: unexpected frame type opcode ({0})", Utility.DataFormat(rx));
-                            Log.Warn(msg);
+                            //Log.Warn(msg);
                             break;
                         }
                     }
@@ -570,12 +570,12 @@ namespace KFDtool.P25.ThreeWire
             }
             catch (OperationCanceledException)
             {
-                Log.Debug("operation cancelled");
+                //Log.Debug("operation cancelled");
                 return;
             }
             catch (Exception ex)
             {
-                Log.Warn("error in mr emulation: {0}", ex.Message);
+                //Log.Warn("error in mr emulation: {0}", ex.Message);
                 throw;
             }
         }

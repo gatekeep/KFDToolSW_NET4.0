@@ -9,7 +9,7 @@ namespace KFDtool.Adapter.Device
 {
     public class AutoDetection
     {
-        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private ManagementEventWatcher Watcher;
         private bool FirstRun;
@@ -31,28 +31,28 @@ namespace KFDtool.Adapter.Device
 
         public void Start()
         {
-            Logger.Debug("auto detection starting");
+            //Logger.Debug("auto detection starting");
 
             FirstRun = true;
 
             UpdateDevices();
             Watcher.Start();
 
-            Logger.Debug("auto detection started");
+            //Logger.Debug("auto detection started");
         }
 
         public void Stop()
         {
-            Logger.Debug("auto detection stopping");
+            //Logger.Debug("auto detection stopping");
 
             Watcher.Stop();
 
-            Logger.Debug("auto detection stopped");
+            //Logger.Debug("auto detection stopped");
         }
 
         private void USBChangedEvent(object sender, EventArrivedEventArgs e)
         {
-            Logger.Debug("device added/removed");
+            //Logger.Debug("device added/removed");
 
             UpdateDevices();
         }
@@ -65,17 +65,17 @@ namespace KFDtool.Adapter.Device
 
             foreach (string dev in Devices)
             {
-                Logger.Trace("current device: {0}", dev);
+                //Logger.Trace("current device: {0}", dev);
             }
 
             foreach (string dev in detDev)
             {
-                Logger.Trace("new device: {0}", dev);
+                //Logger.Trace("new device: {0}", dev);
             }
 
             if (FirstRun || !detDev.SequenceEqual(Devices))
             {
-                Logger.Debug("change in device list");
+                //Logger.Debug("change in device list");
 
                 FirstRun = false;
 

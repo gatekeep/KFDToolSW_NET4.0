@@ -1,4 +1,4 @@
-﻿using NLog;
+﻿//using NLog;
 using System;
 using System.Windows;
 
@@ -9,7 +9,7 @@ namespace KFDtool.Gui
     /// </summary>
     public partial class App : Application
     {
-        private static Logger Log = LogManager.GetCurrentClassLogger();
+        //private static Logger Log = LogManager.GetCurrentClassLogger();
 
         public App()
         {
@@ -20,9 +20,9 @@ namespace KFDtool.Gui
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Exception ex = (Exception)e.ExceptionObject;
-            Log.Error("UnhandledException caught: {0}", ex.Message);
-            Log.Error("UnhandledException StackTrace: {0}", ex.StackTrace);
-            Log.Fatal("Runtime terminating: {0}", e.IsTerminating);
+            //Log.Error("UnhandledException caught: {0}", ex.Message);
+            //Log.Error("UnhandledException StackTrace: {0}", ex.StackTrace);
+            //Log.Fatal("Runtime terminating: {0}", e.IsTerminating);
         }
     }
 }

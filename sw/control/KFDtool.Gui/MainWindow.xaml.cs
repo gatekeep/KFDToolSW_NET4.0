@@ -3,7 +3,7 @@ using KFDtool.Container;
 using KFDtool.Gui.Dialog;
 using KFDtool.P25.TransferConstructs;
 using Microsoft.Win32;
-using NLog;
+//using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +19,7 @@ namespace KFDtool.Gui
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static Logger Log = LogManager.GetCurrentClassLogger();
+        //private static Logger Log = LogManager.GetCurrentClassLogger();
 
         private AutoDetection AppDet;
 
@@ -251,7 +251,9 @@ namespace KFDtool.Gui
                 Settings.ContainerOpen = true;
                 Settings.ContainerSaved = false;
                 Settings.ContainerPath = string.Empty;
-                (Settings.ContainerOuter, Settings.ContainerKey) = ContainerUtilities.CreateOuterContainer(password);
+                byte[] key = null;
+                Settings.ContainerOuter = ContainerUtilities.CreateOuterContainer(password, out key);
+                Settings.ContainerKey = key;
                 Settings.ContainerInner = ContainerUtilities.CreateInnerContainer();
 
                 UpdateContainerText();
@@ -305,7 +307,7 @@ namespace KFDtool.Gui
 
                     try
                     {
-                        (outerContainer, innerContainer, key) = ContainerUtilities.DecryptOuterContainer(fileContents, password);
+                        outerContainer = ContainerUtilities.DecryptOuterContainer(fileContents, password, out innerContainer, out key);
                     }
                     catch (Exception ex)
                     {
@@ -370,7 +372,9 @@ namespace KFDtool.Gui
                 {
                     string password = containerSetPassword.PasswordText;
 
-                    (Settings.ContainerOuter, Settings.ContainerKey) = ContainerUtilities.CreateOuterContainer(password);
+                    byte[] key = null;
+                    Settings.ContainerOuter = ContainerUtilities.CreateOuterContainer(password, out key);
+                    Settings.ContainerKey = key;
 
                     Settings.ContainerSaved = false;
 
@@ -586,10 +590,10 @@ namespace KFDtool.Gui
 
         private void CheckConnectedDevices(object sender, EventArgs e)
         {
-            Log.Debug("device list updated");
+            //Log.Debug("device list updated");
 
             // needed to access UI elements from different thread
-            this.Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(new Action(() =>
             {
                 bool first = true;
 
@@ -643,7 +647,7 @@ namespace KFDtool.Gui
                         first = false;
                     }
                 }
-            });
+            }));
         }
 
         private void Device_MenuItem_Click(object sender, RoutedEventArgs e)

@@ -30,7 +30,7 @@ namespace KFDtool.Container
 
             if (hashAlgorithm == "SHA512")
             {
-                pbkdf2 = new Rfc2898DeriveBytes(Encoding.UTF8.GetBytes(password), salt, iterationCount, HashAlgorithmName.SHA512);
+                pbkdf2 = new Rfc2898DeriveBytes(Encoding.UTF8.GetBytes(password), salt, iterationCount/*, HashAlgorithmName.SHA512*/);
             }
             else
             {
@@ -67,7 +67,7 @@ namespace KFDtool.Container
             return doc;
         }
 
-        public static (OuterContainer Container, byte[] Key) CreateOuterContainer(string password)
+        public static OuterContainer CreateOuterContainer(string password, out byte[] Key)
         {
             string outerVersion = "1.0";
 
@@ -94,7 +94,8 @@ namespace KFDtool.Container
             outerContainer.KeyDerivation.KeyLength = keyLength;
             outerContainer.EncryptedDataPlaceholder = "placeholder";
 
-            return (outerContainer, key);
+            Key = key;
+            return outerContainer;
         }
 
         public static XmlDocument SerializeOuterContainer(OuterContainer outerContainer)
@@ -149,7 +150,7 @@ namespace KFDtool.Container
             return fileBytes;
         }
 
-        public static (OuterContainer ContainerOuter, InnerContainer ContainerInner, byte[] Key) DecryptOuterContainer(byte[] fileBytes, string password)
+        public static OuterContainer DecryptOuterContainer(byte[] fileBytes, string password, out InnerContainer ContainerInner, out byte[] Key)
         {
             byte[] outerContainerBytes;
 
@@ -344,7 +345,9 @@ namespace KFDtool.Container
                 }
             }
 
-            return (outerContainer, innerContainer, key);
+            ContainerInner = innerContainer;
+            Key = key;
+            return outerContainer;
         }
     }
 }

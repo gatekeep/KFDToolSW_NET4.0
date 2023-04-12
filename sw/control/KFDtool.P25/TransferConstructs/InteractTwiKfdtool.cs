@@ -11,7 +11,7 @@ namespace KFDtool.P25.TransferConstructs
 {
     public class InteractTwiKfdtool
     {
-        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static string ReadAdapterProtocolVersion(BaseDevice device)
         {
@@ -51,7 +51,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -96,7 +96,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -149,7 +149,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -209,7 +209,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -261,7 +261,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -312,7 +312,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -352,7 +352,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
         }
@@ -422,7 +422,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -464,7 +464,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
         }
@@ -504,7 +504,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
         }
@@ -545,7 +545,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
         }
@@ -586,7 +586,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
         }
@@ -629,7 +629,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -674,7 +674,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -719,7 +719,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -764,7 +764,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -809,7 +809,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -854,7 +854,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -899,7 +899,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 
@@ -945,7 +945,7 @@ namespace KFDtool.P25.TransferConstructs
                 }
                 catch (System.IO.IOException ex)
                 {
-                    Logger.Warn("could not close serial port: {0}", ex.Message);
+                    //Logger.Warn("could not close serial port: {0}", ex.Message);
                 }
             }
 

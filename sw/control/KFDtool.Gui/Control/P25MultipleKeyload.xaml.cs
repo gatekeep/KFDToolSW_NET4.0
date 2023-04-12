@@ -13,7 +13,7 @@ namespace KFDtool.Gui.Control
     /// </summary>
     public partial class P25MultipleKeyload : UserControl
     {
-        private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
         private List<int> Keys;
 

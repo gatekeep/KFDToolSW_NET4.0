@@ -23,7 +23,7 @@ namespace KFDtool.Gui.Control
     /// </summary>
     public partial class P25MrEmulator : UserControl
     {
-        private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
         AdapterProtocol ap;
 
@@ -56,11 +56,11 @@ namespace KFDtool.Gui.Control
 
         private void ErrorEmulation(string message)
         {
-            this.Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(new Action(() =>
             {
                 MessageBox.Show(string.Format("Error -- {0}", message), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 StopEmulation();
-            });
+            }));
         }
 
         private void Start_Button_Click(object sender, RoutedEventArgs e)
@@ -79,7 +79,7 @@ namespace KFDtool.Gui.Control
 
             StartEmulation();
 
-            Task.Run(() =>
+            Task.Factory.StartNew(new Action(() =>
             {
                 ap = null;
 
@@ -112,19 +112,19 @@ namespace KFDtool.Gui.Control
                     }
                     catch (System.IO.IOException ex)
                     {
-                        Log.Warn("could not close serial port: {0}", ex.Message);
+                        //Log.Warn("could not close serial port: {0}", ex.Message);
                     }
                 }
-            });
+            }));
         }
 
         private void OnProgressUpdated(object sender, EventArgs e)
         {
-            this.Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(new Action(() =>
             {
                 TextArea.Text = twp.Status;
                 TextArea.ScrollToEnd();
-            });
+            }));
         }
 
         private void Stop_Button_Click(object sender, RoutedEventArgs e)

@@ -10,7 +10,7 @@ namespace KFDtool.Adapter.Protocol.Serial
 {
     public class SerialProtocol
     {
-        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         const byte SOM = 0x61;
         const byte SOM_PLACEHOLDER = 0x62;
@@ -59,7 +59,7 @@ namespace KFDtool.Adapter.Protocol.Serial
             }
             else
             {
-                Logger.Debug("Not opening already open serial port");
+                //Logger.Debug("Not opening already open serial port");
             }
         }
 
@@ -114,15 +114,15 @@ namespace KFDtool.Adapter.Protocol.Serial
 
             byte[] outData = frameData.ToArray();
 
-            Logger.Debug("out len: {0}", outData.Length);
-            Logger.Debug("out data: {0}", BitConverter.ToString(outData));
+            //Logger.Debug("out len: {0}", outData.Length);
+            //Logger.Debug("out data: {0}", BitConverter.ToString(outData));
 
             Port.Write(outData, 0, outData.Length);
         }
 
         private byte[] ReadPacketFromPacketBuffer()
         {
-            Logger.Trace("packet buffer before length: {0}", PacketBuffer.Count);
+            //Logger.Trace("packet buffer before length: {0}", PacketBuffer.Count);
 
             if (PacketBuffer.Count == 0)
             {
@@ -131,11 +131,11 @@ namespace KFDtool.Adapter.Protocol.Serial
 
             byte[] packet = PacketBuffer[0].ToArray();
 
-            Logger.Trace("packet contents: {0}", BitConverter.ToString(packet));
+            //Logger.Trace("packet contents: {0}", BitConverter.ToString(packet));
 
             PacketBuffer.RemoveAt(0);
 
-            Logger.Trace("packet buffer after length: {0}", PacketBuffer.Count);
+            //Logger.Trace("packet buffer after length: {0}", PacketBuffer.Count);
 
             return packet;
         }
@@ -189,11 +189,11 @@ namespace KFDtool.Adapter.Protocol.Serial
 
             int toRead = sp.BytesToRead;
 
-            Logger.Debug("in len: {0}", toRead);
+            //Logger.Debug("in len: {0}", toRead);
 
             if (toRead == 0)
             {
-                Logger.Warn("no data to read");
+                //Logger.Warn("no data to read");
                 return;
             }
 
@@ -201,16 +201,16 @@ namespace KFDtool.Adapter.Protocol.Serial
 
             sp.Read(inData, 0, inData.Length);
 
-            Logger.Debug("in data: {0}", BitConverter.ToString(inData));
+            //Logger.Debug("in data: {0}", BitConverter.ToString(inData));
 
             foreach (byte b in inData)
             {
-                Logger.Trace("new byte: 0x{0:X2}", b);
+                //Logger.Trace("new byte: 0x{0:X2}", b);
 
                 if (b == SOM)
                 {
                     FoundStart = true;
-                    Logger.Trace("found start byte");
+                    //Logger.Trace("found start byte");
                 }
                 else if (b == EOM)
                 {
@@ -250,17 +250,17 @@ namespace KFDtool.Adapter.Protocol.Serial
 
                     PacketBuffer.Add(packet);
 
-                    Logger.Debug("packet contents: {0}", BitConverter.ToString(packet.ToArray()));
+                    //Logger.Debug("packet contents: {0}", BitConverter.ToString(packet.ToArray()));
 
                     FrameBuffer.Clear();
 
-                    Logger.Debug("packet buffer length: {0}", PacketBuffer.Count);
+                    //Logger.Debug("packet buffer length: {0}", PacketBuffer.Count);
                 }
                 else
                 {
                     if (FoundStart)
                     {
-                        Logger.Trace("added 0x{0:X2}", b);
+                        //Logger.Trace("added 0x{0:X2}", b);
                         FrameBuffer.Add(b);
                     }
                 }

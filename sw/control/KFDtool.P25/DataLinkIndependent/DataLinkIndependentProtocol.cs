@@ -13,7 +13,7 @@ namespace KFDtool.P25.DataLinkIndependent
 {
     public class DataLinkIndependentProtocol : IDeviceProtocol
     {
-        private static NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
+        //private static N//Log.Logger Log = N//Log.LogManager.GetCurrentClassLogger();
 
         private UdpProtocol Protocol;
 
@@ -92,11 +92,11 @@ namespace KFDtool.P25.DataLinkIndependent
 
         public byte[] PerformKmmTransfer(byte[] toRadio)
         {
-            Log.Debug("TX: {0}", BitConverter.ToString(toRadio));
+            //Log.Debug("TX: {0}", BitConverter.ToString(toRadio));
 
             byte[] fromRadio = Protocol.TxRx(toRadio);
 
-            Log.Debug("RX: {0}", BitConverter.ToString(fromRadio));
+            //Log.Debug("RX: {0}", BitConverter.ToString(fromRadio));
 
             return fromRadio;
         }

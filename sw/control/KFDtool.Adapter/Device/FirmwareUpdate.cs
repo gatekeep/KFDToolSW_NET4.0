@@ -12,13 +12,13 @@ namespace KFDtool.Adapter.Device
 {
     public class FirmwareUpdate
     {
-        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private FirmwareUpdater firmwareUpdater;
 
         private void OnProgressUpdated(object sender, EventArgs e)
         {
-            Logger.Trace("progress: {0}", (int)(firmwareUpdater.Percentage * 100.0));
+            //Logger.Trace("progress: {0}", (int)(firmwareUpdater.Percentage * 100.0));
         }
 
         public bool UpdateDevice(Update updates)
@@ -36,11 +36,11 @@ namespace KFDtool.Adapter.Device
 
             while (retryAttempt < 10)
             {
-                Logger.Debug("retry attempt: {0}", retryAttempt);
+                //Logger.Debug("retry attempt: {0}", retryAttempt);
 
                 if (firmwareUpdater.Connected)
                 {
-                    Logger.Debug("device found");
+                    //Logger.Debug("device found");
 
                     firmwareUpdater.startFirmwareUpdate();
 
@@ -51,22 +51,22 @@ namespace KFDtool.Adapter.Device
 
                     if (firmwareUpdater.Status == FirmwareUpdater.COMPLETE)
                     {
-                        Logger.Debug("update completed");
+                        //Logger.Debug("update completed");
                         status = true;
                         break;
                     }
                     else if (firmwareUpdater.Status == FirmwareUpdater.CANCELED)
                     {
-                        Logger.Debug("update canceled");
+                        //Logger.Debug("update canceled");
                     }
                     else
                     {
-                        Logger.Debug("update failed");
+                        //Logger.Debug("update failed");
                     }
                 }
                 else
                 {
-                    Logger.Debug("device not found");
+                    //Logger.Debug("device not found");
                 }
 
                 Thread.Sleep(1000);

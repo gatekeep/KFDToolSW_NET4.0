@@ -13,12 +13,13 @@ namespace KFDtool.Cmd
         {
             AdapterProtocol ap = new AdapterProtocol(port);
 
-            Task.Run(() =>
+            //Task.Run(() =>
+            Task.Factory.StartNew(new Action(() =>
             {
                 Console.WriteLine("press any key to cancel...");
                 Console.ReadKey();
                 ap.Cancel();
-            });
+            }));
 
             try
             {

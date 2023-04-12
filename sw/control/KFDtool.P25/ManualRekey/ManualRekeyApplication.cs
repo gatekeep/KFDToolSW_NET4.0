@@ -16,7 +16,7 @@ namespace KFDtool.P25.ManualRekey
 {
     public class ManualRekeyApplication
     {
-        private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        //private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private bool WithPreamble { get; set; }
 
@@ -81,12 +81,12 @@ namespace KFDtool.P25.ManualRekey
                 {
                     InventoryResponseListActiveKsetIds kmm = rspKmmBody1 as InventoryResponseListActiveKsetIds;
 
-                    Logger.Debug("number of active keyset ids: {0}", kmm.KsetIds.Count);
+                    //Logger.Debug("number of active keyset ids: {0}", kmm.KsetIds.Count);
 
                     for (int i = 0; i < kmm.KsetIds.Count; i++)
                     {
-                        Logger.Debug("* keyset id index {0} *", i);
-                        Logger.Debug("keyset id: {0} (dec), {0:X} (hex)", kmm.KsetIds[i]);
+                        //Logger.Debug("* keyset id index {0} *", i);
+                        //Logger.Debug("keyset id: {0} (dec), {0:X} (hex)", kmm.KsetIds[i]);
                     }
 
                     // TODO support more than one crypto group
@@ -134,7 +134,7 @@ namespace KFDtool.P25.ManualRekey
 
                     foreach (CmdKeyItem key in keyGroup)
                     {
-                        Logger.Debug(key.ToString());
+                        //Logger.Debug(key.ToString());
 
                         KeyItem keyItem = new KeyItem();
                         keyItem.SLN = key.Sln;
@@ -152,16 +152,16 @@ namespace KFDtool.P25.ManualRekey
                     {
                         RekeyAcknowledgment kmm = rspKmmBody2 as RekeyAcknowledgment;
 
-                        Logger.Debug("number of key status: {0}", kmm.Keys.Count);
+                        //Logger.Debug("number of key status: {0}", kmm.Keys.Count);
 
                         for (int i = 0; i < kmm.Keys.Count; i++)
                         {
                             KeyStatus status = kmm.Keys[i];
 
-                            Logger.Debug("* key status index {0} *", i);
-                            Logger.Debug("algorithm id: {0} (dec), {0:X} (hex)", status.AlgorithmId);
-                            Logger.Debug("key id: {0} (dec), {0:X} (hex)", status.KeyId);
-                            Logger.Debug("status: {0} (dec), {0:X} (hex)", status.Status);
+                            //Logger.Debug("* key status index {0} *", i);
+                            //Logger.Debug("algorithm id: {0} (dec), {0:X} (hex)", status.AlgorithmId);
+                            //Logger.Debug("key id: {0} (dec), {0:X} (hex)", status.KeyId);
+                            //Logger.Debug("status: {0} (dec), {0:X} (hex)", status.Status);
 
                             if (status.Status != 0)
                             {
@@ -223,12 +223,12 @@ namespace KFDtool.P25.ManualRekey
                 {
                     InventoryResponseListActiveKsetIds kmm = rspKmmBody1 as InventoryResponseListActiveKsetIds;
 
-                    Logger.Debug("number of active keyset ids: {0}", kmm.KsetIds.Count);
+                    //Logger.Debug("number of active keyset ids: {0}", kmm.KsetIds.Count);
 
                     for (int i = 0; i < kmm.KsetIds.Count; i++)
                     {
-                        Logger.Debug("* keyset id index {0} *", i);
-                        Logger.Debug("keyset id: {0} (dec), {0:X} (hex)", kmm.KsetIds[i]);
+                        //Logger.Debug("* keyset id index {0} *", i);
+                        //Logger.Debug("keyset id: {0} (dec), {0:X} (hex)", kmm.KsetIds[i]);
                     }
 
                     // TODO support more than one crypto group
@@ -276,7 +276,7 @@ namespace KFDtool.P25.ManualRekey
 
                     foreach (CmdKeyItem key in keyGroup)
                     {
-                        Logger.Debug(key.ToString());
+                        //Logger.Debug(key.ToString());
 
                         KeyItem keyItem = new KeyItem();
                         keyItem.SLN = key.Sln;
@@ -294,16 +294,16 @@ namespace KFDtool.P25.ManualRekey
                     {
                         RekeyAcknowledgment kmm = rspKmmBody2 as RekeyAcknowledgment;
 
-                        Logger.Debug("number of key status: {0}", kmm.Keys.Count);
+                        //Logger.Debug("number of key status: {0}", kmm.Keys.Count);
 
                         for (int i = 0; i < kmm.Keys.Count; i++)
                         {
                             KeyStatus status = kmm.Keys[i];
 
-                            Logger.Debug("* key status index {0} *", i);
-                            Logger.Debug("algorithm id: {0} (dec), {0:X} (hex)", status.AlgorithmId);
-                            Logger.Debug("key id: {0} (dec), {0:X} (hex)", status.KeyId);
-                            Logger.Debug("status: {0} (dec), {0:X} (hex)", status.Status);
+                            //Logger.Debug("* key status index {0} *", i);
+                            //Logger.Debug("algorithm id: {0} (dec), {0:X} (hex)", status.AlgorithmId);
+                            //Logger.Debug("key id: {0} (dec), {0:X} (hex)", status.KeyId);
+                            //Logger.Debug("status: {0} (dec), {0:X} (hex)", status.Status);
 
                             if (status.Status != 0)
                             {
@@ -359,7 +359,7 @@ namespace KFDtool.P25.ManualRekey
 
                 if (responseKmmBody is ZeroizeResponse)
                 {
-                    Logger.Debug("zerozied");
+                    //Logger.Debug("zerozied");
                 }
                 else if (responseKmmBody is NegativeAcknowledgment)
                 {
@@ -409,24 +409,24 @@ namespace KFDtool.P25.ManualRekey
 
                         marker = kmm.InventoryMarker;
 
-                        Logger.Debug("inventory marker: {0}", marker);
+                        //Logger.Debug("inventory marker: {0}", marker);
 
                         if (marker == 0)
                         {
                             more = false;
                         }
 
-                        Logger.Debug("number of keys returned: {0}", kmm.Keys.Count);
+                        //Logger.Debug("number of keys returned: {0}", kmm.Keys.Count);
 
                         for (int i = 0; i < kmm.Keys.Count; i++)
                         {
                             KeyInfo info = kmm.Keys[i];
 
-                            Logger.Debug("* key index {0} *", i);
-                            Logger.Debug("keyset id: {0} (dec), {0:X} (hex)", info.KeySetId);
-                            Logger.Debug("sln: {0} (dec), {0:X} (hex)", info.SLN);
-                            Logger.Debug("algorithm id: {0} (dec), {0:X} (hex)", info.AlgorithmId);
-                            Logger.Debug("key id: {0} (dec), {0:X} (hex)", info.KeyId);
+                            //Logger.Debug("* key index {0} *", i);
+                            //Logger.Debug("keyset id: {0} (dec), {0:X} (hex)", info.KeySetId);
+                            //Logger.Debug("sln: {0} (dec), {0:X} (hex)", info.SLN);
+                            //Logger.Debug("algorithm id: {0} (dec), {0:X} (hex)", info.AlgorithmId);
+                            //Logger.Debug("key id: {0} (dec), {0:X} (hex)", info.KeyId);
 
                             RspKeyInfo res = new RspKeyInfo();
 
@@ -478,7 +478,7 @@ namespace KFDtool.P25.ManualRekey
 
                 if (responseKmmBody is InventoryResponseListKmfRsi)
                 {
-                    Logger.Debug("MNP response");
+                    //Logger.Debug("MNP response");
 
                     InventoryResponseListKmfRsi kmm = responseKmmBody as InventoryResponseListKmfRsi;
 
@@ -523,7 +523,7 @@ namespace KFDtool.P25.ManualRekey
 
                 if (responseKmmBody is InventoryResponseListMnp)
                 {
-                    Logger.Debug("MNP response");
+                    //Logger.Debug("MNP response");
 
                     InventoryResponseListMnp kmm = responseKmmBody as InventoryResponseListMnp;
 
@@ -666,22 +666,22 @@ namespace KFDtool.P25.ManualRekey
                     {
                         InventoryResponseListRsiItems kmm = responseKmmBody as InventoryResponseListRsiItems;
 
-                        Logger.Debug("inventory marker: {0}", marker);
+                        //Logger.Debug("inventory marker: {0}", marker);
 
                         if (marker == 0)
                         {
                             more = false;
                         }
 
-                        Logger.Debug("number of RSIs returned: {0}", kmm.RsiItems.Count);
+                        //Logger.Debug("number of RSIs returned: {0}", kmm.RsiItems.Count);
 
                         for (int i = 0; i < kmm.RsiItems.Count; i++)
                         {
                             RsiItem item = kmm.RsiItems[i];
 
-                            Logger.Debug("* rsi index {0} *", i);
-                            Logger.Debug("rsi id: {0} (dec), {0:X} (hex)", item.RSI);
-                            Logger.Debug("mn: {0} (dec), {0:X} (hex)", item.MessageNumber);
+                            //Logger.Debug("* rsi index {0} *", i);
+                            //Logger.Debug("rsi id: {0} (dec), {0:X} (hex)", item.RSI);
+                            //Logger.Debug("mn: {0} (dec), {0:X} (hex)", item.MessageNumber);
 
                             RspRsiInfo res = new RspRsiInfo();
 
@@ -731,7 +731,7 @@ namespace KFDtool.P25.ManualRekey
 
                 if (responseKmmBody is InventoryResponseListKeysetTaggingInfo)
                 {
-                    Logger.Debug("KeysetTaggingInfo response");
+                    //Logger.Debug("KeysetTaggingInfo response");
 
                     InventoryResponseListKeysetTaggingInfo kmm = responseKmmBody as InventoryResponseListKeysetTaggingInfo;
 
